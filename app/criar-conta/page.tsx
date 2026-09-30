@@ -75,10 +75,10 @@ export default function Home() {
         </button>
 
         <button
-          /* router.push utiliza a função de navegar pelas páginas, passando o nome da pasta ele já abre o arquivo*/
-          onClick={() => router.push("criar-conta")}
+          /* router.push utiliza a função de navegar pelas páginas "/" significa que voltara a raiz*/
+          onClick={() => router.push("/")}
           className="rounded bg-blue-500 px-4 py-3 text-white active:bg-blue-700">
-          Criar conta
+          Já tenho uma conta
         </button>
 
       </div>
