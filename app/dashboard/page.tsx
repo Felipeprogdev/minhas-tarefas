@@ -1,52 +1,71 @@
-"use client";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
-import { useState } from "react";
+export async function signOut() {
+  const supabase = await createClient()
+  await supabase.auth.signOut()
+  redirect('/')
+}
 
+export default async function DashboardPage() {
+  // 1. Cria o cliente do Supabase no lado do servidor
+  const supabase = await createClient();
 
-export default function UsersTable() {
+  // 2. Busca o usuário autenticado na sessão
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
+
+  // 3. Se não estiver logado, redireciona para a home/login
+  if (error || !user) {
+    redirect("/");
+  }
+
+  // Busca 'nome' ou 'display_name' salvos no user_metadata
+  const userName =
+    user.user_metadata?.nome ||
+    user.user_metadata?.display_name ||
+    "Usuário";
+
+  // Lista fictícia de dados
   const users = [
     { id: 1, name: "João", email: "joao@email.com" },
     { id: 2, name: "Maria", email: "maria@email.com" },
-    { id: 3, name: "Maria", email: "maria@email.com" },
+    { id: 3, name: "Carlos", email: "carlos@email.com" },
   ];
 
   return (
-    <div className="mx-auto max-w-4xl p-6">
-      {/* Conteúdo antes da tabela */}
-      <div className="flex flex-col gap-4">
-        <label>E-mail</label>
-
-        <input
-          type="email"
-          placeholder="Digite seu e-mail"
-
-          className="rounded border p-3"
-        />
+    <div className="mx-auto max-w-4xl p-6 space-y-6">
+      <button
+            type="submit"
+            className="rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 active:scale-95"
+          >
+            Sair
+          </button>
+      <div className="rounded border bg-gray-50 p-4">
+        <h1 className="text-2xl font-bold text-gray-800">
+          Bem-vindo, {userName}!
+        </h1>
+        <p className="text-gray-600">Logado como: {userName}</p>
+        <p className="text-xs text-gray-400">ID: {user.id}</p>
       </div>
 
-      {/* Tabela */}
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto rounded border">
         <table className="w-full text-left text-sm text-gray-600">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700">
             <tr>
-              <th className="px-6 py-3">Terefa</th>
-              <th className="px-6 py-3">Status</th>
+              <th className="px-6 py-3">Nome</th>
+              <th className="px-6 py-3">E-mail</th>
             </tr>
           </thead>
-
           <tbody>
-            {users.map((user) => (
-              <tr
-                key={user.id}
-                className="border-b hover:bg-gray-50"
-              >
-                <td className="px-6 py-4 font-medium text-withe-900">
-                  {user.name}
+            {users.map((item) => (
+              <tr key={item.id} className="border-b hover:bg-gray-50">
+                <td className="px-6 py-4 font-medium text-gray-900">
+                  {item.name}
                 </td>
-
-                <td className="px-6 py-4">
-                  {user.email}
-                </td>
+                <td className="px-6 py-4">{item.email}</td>
               </tr>
             ))}
           </tbody>
@@ -55,6 +74,3 @@ export default function UsersTable() {
     </div>
   );
 }
-
-
-

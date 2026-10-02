@@ -1,3 +1,4 @@
+import 'server-only'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 
@@ -18,7 +19,8 @@ export async function createClient() {
               cookieStore.set(name, value, options)
             })
           } catch {
-            // Pode ser chamado de um Server Component
+            // Ignorado em Server Components puros
+          }
         },
       },
     }

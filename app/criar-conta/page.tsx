@@ -73,7 +73,7 @@ export default function CadastroPage() {
         /*
         Tenta criar uma nova conta no Supabase
 
-        O email e a senha serão enviados para o
+        O nome, email e senha serão enviados para o
         sistema de autenticação do Supabase
         */
         const { data, error } = await supabase.auth.signUp({
@@ -98,10 +98,17 @@ export default function CadastroPage() {
         }
 
         /*
-        Se o cadastro der certo,
-        manda o usuário para a página de login
+        Verifica se a confirmação de e-mail está ativada no Supabase.
+        Se 'data.session' existir, o usuário já está logado e vai direto para a aplicação.
+        Se não existir, significa que o Supabase exige confirmação por e-mail antes do login.
         */
-        router.push("/");
+        if (data.session) {
+            // Manda o usuário autenticado direto para a tela principal (dashboard)
+            router.push("/dashboard");
+        } else {
+            // Se o e-mail precisar ser confirmado, manda para a tela de login (ou aviso)
+            router.push("/?message=Verifique seu e-mail para confirmar a conta.");
+        }
 
         /*
         Finaliza o estado de carregamento
