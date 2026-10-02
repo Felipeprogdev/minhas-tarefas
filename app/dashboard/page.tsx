@@ -1,12 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
-export async function signOut() {
-  const supabase = await createClient()
-  await supabase.auth.signOut()
-  redirect('/')
-}
-
 export default async function DashboardPage() {
   // 1. Cria o cliente do Supabase no lado do servidor
   const supabase = await createClient();
@@ -19,6 +13,14 @@ export default async function DashboardPage() {
 
   // 3. Se não estiver logado, redireciona para a home/login
   if (error || !user) {
+    redirect("/");
+  }
+
+  // 4. Server Action Inline para Logout
+  async function signOut() {
+    "use server";
+    const supabase = await createClient();
+    await supabase.auth.signOut();
     redirect("/");
   }
 
@@ -37,18 +39,24 @@ export default async function DashboardPage() {
 
   return (
     <div className="mx-auto max-w-4xl p-6 space-y-6">
-      <button
+      {/* Formulário conectando a Server Action ao botão */}
+        <form action={signOut}>
+          <button
             type="submit"
             className="rounded bg-red-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-red-700 active:scale-95"
           >
             Sair
           </button>
-      <div className="rounded border bg-gray-50 p-4">
-        <h1 className="text-2xl font-bold text-gray-800">
-          Bem-vindo, {userName}!
-        </h1>
-        <p className="text-gray-600">Logado como: {userName}</p>
-        <p className="text-xs text-gray-400">ID: {user.id}</p>
+        </form>
+      <div className="flex items-center justify-between rounded border bg-gray-50 p-4">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800">
+            Bem-vindo, {userName}!
+          </h1>
+          <p className="text-gray-600">Logado como: {userName}</p>
+          <p className="text-xs text-gray-400">ID: {user.id}</p>
+        </div>
+
       </div>
 
       <div className="overflow-x-auto rounded border">
