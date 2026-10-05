@@ -14,6 +14,13 @@ Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
 ---
 
+### 1. 📥 Instale o Git no cmd:
+```bash
+winget install --id Git.Git -e --source winget
+``` 
+
+---
+
 ## 🛠️ Como executar o projeto
 
 ### 📋 Pré-requisitos
@@ -24,7 +31,7 @@ Antes de começar, você precisará ter instalado em sua máquina:
 
 ---
 
-### 1. 📥 Clone o repositório
+### 2. 📥 Clone o repositório
 
 ```bash
 git clone https://github.com/Felipeprogdev/minhas-tarefas.git
@@ -39,14 +46,14 @@ npm install
 
 ---
 
-### 2. 🔐 Configure as variáveis de ambiente
+### 3. 🔐 Configure as variáveis de ambiente
 
 Na raiz do projeto, crie um arquivo chamado `.env.local`:
 Esse arquivo será utilizado para armazenar as chaves de acesso do Supabase.
 
 ---
 
-### 3. 🗄️ Configure o Supabase
+### 4. 🗄️ Configure o Supabase
 
 1. Acesse o console do [Supabase](https://supabase.com/) e crie um novo projeto.
 2. Crie um projeto no supabase.
@@ -101,7 +108,7 @@ O **Row Level Security (RLS)** garante que cada usuário tenha acesso somente à
 
 ---
 
-### 4. ▶️ Execute o projeto
+### 5. ▶️ Execute o projeto
 
 ```bash
 npm run dev
@@ -109,7 +116,7 @@ npm run dev
 
 ---
 
-### 5. 🌐 Abra no navegador
+### 6. 🌐 Abra no navegador
 
 Acesse [http://localhost:3000](http://localhost:3000) para ver a aplicação rodando localmente.
 
