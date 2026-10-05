@@ -8,65 +8,119 @@ Uma aplicação web para gerenciamento e organização de tarefas do dia a dia.
 
 Este projeto foi desenvolvido utilizando as seguintes tecnologias:
 
-- **[Next.js](https://nextjs.org/)** — Framework React para produção
-- **[Tailwind CSS](https://tailwindcss.com/)** — Framework CSS utilitário para estilização rápida
-- **[Supabase](https://supabase.com/)** — Backend como serviço (Banco de dados PostgreSQL, Autenticação e Realtime)
+- **Next.js** — Framework React para produção
+- **Tailwind CSS** — Framework CSS utilitário para estilização rápida
+- **Supabase** — Backend como serviço, utilizando PostgreSQL, autenticação e Realtime
 
 ---
 
 ## 🛠️ Como executar o projeto
 
-### Pré-requisitos
+### 📋 Pré-requisitos
 
 Antes de começar, você precisará ter instalado em sua máquina:
-- [Node.js](https://nodejs.org/) (versão LTS recomendada)
-- Gerenciador de pacotes (`npm`)
 
-### Passo a passo
+- **Node.js**
 
-1. **Clone o repositório:**
-   ```bash
-   git clone [https://github.com/seu-usuario/minhas-tarefas.git](https://github.com/seu-usuario/minhas-tarefas.git)
-   cd minhas-tarefas
-   npm install
-   npm run dev
-   crie um arquivo chamado .env.local
+---
 
-2. **Crie uma conta no Supabase:**
-   acesse: https://supabase.com/
-   Crie sua conta.
-   dentro dele click em connect, tem um passo a passo ali, no item 1 rode o código que está aparecendo, no item 2 copie as chaves e coloque elas no arquivo .env.local
-   rode o código do item 3
-   volte para a pagina anterior do supabase, clique em SQL Editor, cole o seguinte sql
+### 1. 📥 Clone o repositório
 
-   -- Se já criou a tabela antes e quer recriar do zero:
-   drop table if exists public.todos;
+```bash
+git clone https://github.com/Felipeprogdev/minhas-tarefas.git
+cd minhas-tarefas
+```
 
-   -- Criação da tabela atualizada
-   create table public.todos (
-   id uuid primary key default gen_random_uuid(),
-   user_id uuid references auth.users(id) on delete cascade not null,
-   title text not null,               -- Nome da tarefa (string)
-   completed boolean default false,   -- Status da tarefa (booleano: true = feita, false = pendente)
-   created_at timestamp with time zone default timezone('utc'::text, now()) not null
-   );
+Instale as dependências:
 
-   -- Ativar segurança RLS, Tranca a tabela por completo. Nenhum usuário consegue ler, inserir, alterar ou apagar dados via API até que regras explícitas sejam definidas.
-   alter table public.todos enable row level security;
+```bash
+npm install
+```
 
-   -- Políticas de acesso (RLS) Garantem que cada usuário só enxergue e altere os seus próprios dados. A função auth.uid() compara o ID do usuário conectado no momento com o user_id salvo na linha da tabela, impedindo que um usuário acesse as tarefas do outro.
+---
 
-   create policy "Users can view their own items" 
-   on public.todos for select using (auth.uid() = user_id);
+### 2. 🔐 Configure as variáveis de ambiente
 
-   create policy "Users can insert their own items" 
-   on public.todos for insert with check (auth.uid() = user_id);
+Na raiz do projeto, crie um arquivo chamado `.env.local`:
+Esse arquivo será utilizado para armazenar as chaves de acesso do Supabase.
 
-   create policy "Users can update their own items" 
-   on public.todos for update using (auth.uid() = user_id);
+---
 
-   create policy "Users can delete their own items" 
-   on public.todos for delete using (auth.uid() = user_id);
+### 3. 🗄️ Configure o Supabase
 
-3. **Abra o navegador:**
-   acesse: http://localhost:3000
+1. Acesse o console do [Supabase](https://supabase.com/) e crie um novo projeto.
+2. Dentro do projeto, clique em **Connect** no item 1 rode o código no terminal, no item 2 cole as chaves no arquivo `.env.local`, no item 3 rode o código no terminal.
+3. Acesse o menu lateral em **SQL Editor** → **New query**.
+4. Cole e execute o script SQL abaixo para criar a tabela e configurar as políticas de segurança:
+
+```sql
+-- Se a tabela já existir e você quiser recriá-la do zero:
+drop table if exists public.todos;
+
+-- Criação da tabela
+create table public.todos (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references auth.users(id) on delete cascade not null,
+  title text not null,
+  completed boolean default false,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+
+-- Ativar Row Level Security (RLS)
+alter table public.todos enable row level security;
+
+-- Política para visualizar apenas as próprias tarefas
+create policy "Users can view their own items"
+on public.todos
+for select
+using (auth.uid() = user_id);
+
+-- Política para inserir apenas tarefas próprias
+create policy "Users can insert their own items"
+on public.todos
+for insert
+with check (auth.uid() = user_id);
+
+-- Política para atualizar apenas tarefas próprias
+create policy "Users can update their own items"
+on public.todos
+for update
+using (auth.uid() = user_id);
+
+-- Política para excluir apenas tarefas próprias
+create policy "Users can delete their own items"
+on public.todos
+for delete
+using (auth.uid() = user_id);
+```
+
+#### 🔒 Sobre a segurança (RLS)
+
+O **Row Level Security (RLS)** garante que cada usuário tenha acesso somente às suas próprias tarefas. A função `auth.uid()` identifica o usuário autenticado e compara com a coluna `user_id` da tabela `todos`, impedindo acessos não autorizados.
+
+---
+
+### 4. ▶️ Execute o projeto
+
+```bash
+npm run dev
+```
+
+---
+
+### 5. 🌐 Abra no navegador
+
+Acesse [http://localhost:3000](http://localhost:3000) para ver a aplicação rodando localmente.
+
+---
+
+## 📌 Funcionalidades
+
+- ✅ Cadastro e gerenciamento de tarefas
+- ✅ Marcação de tarefas como concluídas
+- ✅ Exclusão de tarefas
+- ✅ Autenticação de usuários
+- ✅ Isolamento de dados por usuário
+- ✅ Banco de dados PostgreSQL via Supabase
+- ✅ Segurança com Row Level Security (RLS)
+- ✅ Atualizações em tempo real com Supabase Realtime
