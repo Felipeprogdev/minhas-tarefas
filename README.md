@@ -49,9 +49,10 @@ Esse arquivo será utilizado para armazenar as chaves de acesso do Supabase.
 ### 3. 🗄️ Configure o Supabase
 
 1. Acesse o console do [Supabase](https://supabase.com/) e crie um novo projeto.
-2. Dentro do projeto, clique em **Connect** no item 1 rode o código no terminal, no item 2 cole as chaves no arquivo `.env.local`, no item 3 rode o código no terminal.
-3. Acesse o menu lateral em **SQL Editor** → **New query**.
-4. Cole e execute o script SQL abaixo para criar a tabela e configurar as políticas de segurança:
+2. Crie um projeto no supabase.
+3. Dentro do projeto, clique em **Connect** no item 1 rode o código no terminal, no item 2 cole as chaves no arquivo `.env.local`, no item 3 rode o código no terminal.
+4. Acesse o menu lateral em **SQL Editor** → **New query**.
+5. Cole e execute o script SQL abaixo para criar a tabela e configurar as políticas de segurança:
 
 ```sql
 -- Se a tabela já existir e você quiser recriá-la do zero:
