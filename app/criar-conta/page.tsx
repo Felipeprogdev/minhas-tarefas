@@ -39,31 +39,11 @@ export default function CadastroPage() {
         */
         event.preventDefault();
 
-        /*
-        Indica que o cadastro está sendo realizado
-        */
+        /*Indica que o cadastro está sendo realizado*/
         setLoading(true);
 
         /* Limpa uma mensagem de erro anterior */
         setError("");
-
-        /*
-        Verifica se o nome foi preenchido
-        */
-        if (!nome.trim()) {
-        setError("Digite seu nome.");
-        setLoading(false);
-        return;
-        }
-
-        /*
-        Verifica se as duas senhas são iguais
-        */
-        if (password !== confirmPassword) {
-            setError("As senhas não são iguais.");
-            setLoading(false);
-            return;
-        }
 
         /*
         Cria a conexão com o Supabase
@@ -72,7 +52,6 @@ export default function CadastroPage() {
 
         /*
         Tenta criar uma nova conta no Supabase
-
         O nome, email e senha serão enviados para o
         sistema de autenticação do Supabase
         */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 
 /* Conexão com supabase */
 import { createClient } from '@/lib/supabase/client'
@@ -43,9 +43,9 @@ export default function LoginPage() {
         })
 
         if (error) {
-        setError(error.message)
-        setLoading(false)
-        return
+            setError(error.message)
+            setLoading(false)
+            return
         }
         /*Caso de tudo certo, va para a página do usuario */
         window.location.href = '/dashboard'
