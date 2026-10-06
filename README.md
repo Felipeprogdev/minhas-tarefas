@@ -140,7 +140,7 @@ Acesse [http://localhost:3000](http://localhost:3000) para ver a aplicação rod
 - Criei o arquivo .env.local para salvar essas chaves do supabase.
 - Tenho a pasta teste, nela tem o um arquivo que roda como teste, criei para testar algumas funcionalidades como trocar de páginas e outras coisas do tipo, foi para ficar mais facil o meu entendimento e aprendizado de algumas coisas.
 - A pasta criar-conta é o arquivo da página de criação de conta e a dashboard para a tabela.
-- Em actions tenho dois arquivos, auth.ts e todos.ts, auth.ts guarda uma função para deslogar da conta logada no supabase, e o todos.ts é onde tenho o meu CRUD das tabelas.
+- Em actions tenho dois arquivos, auth.ts e todos.ts, auth.ts guarda uma função para deslogar da conta logada no supabase, e o todos.ts é onde tenho o meu CRUD das tabelas, separei assim pois achei que faria mais sentido e mais facil de mexer separando em dois arquivos.
 - Cada pasta foi separada desse modo para não repetir código, para não ficar um código gigante no mesmo arquivo ou simplesmente por ser outra página.
 
 ## O que não entendi/dificuldades
